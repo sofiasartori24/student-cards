@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Carteirinhas</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #1a1a2e;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    /* ── Landing screen ── */
+    #home {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 6vw;
+      width: 100%;
+      height: 100%;
+    }
+
+    .card-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 38vw;
+      height: 78vh;
+      background: rgba(255,255,255,0.07);
+      border: 2px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+      text-decoration: none;
+    }
+
+    .card-btn:active {
+      transform: scale(0.96);
+      background: rgba(255,255,255,0.14);
+    }
+
+    .card-btn .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top center;
+      border: 3px solid rgba(255,255,255,0.3);
+    }
+
+    .card-btn .name {
+      color: #fff;
+      font-size: clamp(13px, 2.2vw, 18px);
+      font-weight: 600;
+      text-align: center;
+      padding: 0 10px;
+      line-height: 1.3;
+    }
+
+    .card-btn .tag {
+      font-size: clamp(10px, 1.6vw, 13px);
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ── Full-screen image view ── */
+    #viewer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #000;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    #viewer.active {
+      display: flex;
+    }
+
+    #viewer img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+
+    #close-btn {
+      position: fixed;
+      top: 14px;
+      right: 18px;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #fff;
+      font-size: 22px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+      z-index: 20;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Home -->
+  <div id="home">
+    <div class="card-btn" onclick="showCard('isabela')">
+      <img class="avatar" src="images/isabela.jpg" alt="Isabela" />
+      <span class="name">Isabela Pereira<br>Sangaletti</span>
+      <span class="tag">Nutrição</span>
+    </div>
+
+    <div class="card-btn" onclick="showCard('sofia')">
+      <img class="avatar" src="images/sofia.jpg" alt="Sofia" />
+      <span class="name">Sofia Batista<br>Sartori</span>
+      <span class="tag">Eng de Software</span>
+    </div>
+  </div>
+
+  <!-- Full-screen viewer -->
+  <div id="viewer">
+    <button id="close-btn" onclick="hideCard()">✕</button>
+    <img id="viewer-img" src="" alt="" />
+  </div>
+
+  <script>
+    const images = {
+      isabela: 'images/isabela.jpg',
+      sofia:   'images/sofia.jpg'
+    };
+
+    function showCard(name) {
+      document.getElementById('viewer-img').src = images[name];
+      document.getElementById('viewer').classList.add('active');
+    }
+
+    function hideCard() {
+      document.getElementById('viewer').classList.remove('active');
+    }
+
+    // Close on tap outside image
+    document.getElementById('viewer').addEventListener('click', function(e) {
+      if (e.target === this) hideCard();
+    });
+  </script>
+</body>
+</html>
