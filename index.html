@@ -3,164 +3,438 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Carteirinhas</title>
+  <title>Carteirinhas DNE</title>
   <style>
     * {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
     }
 
     html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #1a1a2e;
+      width: 100%; height: 100%;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #dce1f0;
     }
 
-    /* ── Landing screen ── */
+    /* ════════════════════════════
+       HOME — two portrait cards
+    ════════════════════════════ */
     #home {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
-      gap: 6vw;
-      width: 100%;
-      height: 100%;
+      gap: 20px;
+      padding: 24px 20px;
+      min-height: 100vh;
+      background: #dce1f0;
     }
 
-    .card-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      width: 38vw;
-      height: 78vh;
-      background: rgba(255,255,255,0.07);
-      border: 2px solid rgba(255,255,255,0.15);
+    .thumb {
+      flex: 1;
+      max-width: 46vw;
       border-radius: 20px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 8px 32px rgba(0,0,50,0.13);
       cursor: pointer;
-      transition: transform 0.15s ease, background 0.15s ease;
-      text-decoration: none;
+      transition: transform 0.15s ease;
+      -webkit-user-select: none;
     }
 
-    .card-btn:active {
-      transform: scale(0.96);
-      background: rgba(255,255,255,0.14);
-    }
+    .thumb:active { transform: scale(0.96); }
 
-    .card-btn .avatar {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
+    .thumb-photo {
+      width: 100%;
+      aspect-ratio: 1 / 1;
       object-fit: cover;
       object-position: top center;
-      border: 3px solid rgba(255,255,255,0.3);
+      display: block;
     }
 
-    .card-btn .name {
-      color: #fff;
-      font-size: clamp(13px, 2.2vw, 18px);
-      font-weight: 600;
-      text-align: center;
-      padding: 0 10px;
+    .thumb-info {
+      padding: 12px 12px 14px;
+    }
+
+    .thumb-info .dne-logo {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1a4f9c;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .thumb-info .dne-logo span {
+      font-size: 18px;
+      font-weight: 900;
+      font-style: italic;
+    }
+
+    .thumb-info .t-name {
+      font-size: clamp(11px, 2.8vw, 14px);
+      font-weight: 700;
+      color: #1a1a2e;
       line-height: 1.3;
+      margin-bottom: 4px;
     }
 
-    .card-btn .tag {
-      font-size: clamp(10px, 1.6vw, 13px);
-      color: rgba(255,255,255,0.5);
+    .thumb-info .t-course {
+      font-size: clamp(9px, 2.2vw, 11px);
+      color: #7c5cbf;
+      font-weight: 600;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ════════════════════════════
+       DETAIL — full profile view
+    ════════════════════════════ */
+    #detail {
+      display: none;
+      flex-direction: column;
+      min-height: 100vh;
+      background: #dce1f0;
+      overflow-y: auto;
+    }
+
+    #detail.active { display: flex; }
+
+    .d-photo-wrap {
+      width: 100%;
+      position: relative;
+    }
+
+    .d-photo {
+      width: 100%;
+      display: block;
+    }
+
+    .d-back {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(8px);
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .d-body {
+      flex: 1;
+      padding: 22px 22px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* DNE + UE header logos row */
+    .d-logos {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .dne-wordmark {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dne-d {
+      font-size: 38px;
+      font-weight: 900;
+      font-style: italic;
+      color: #1a4f9c;
+      line-height: 1;
+    }
+
+    .dne-text {
+      display: flex;
+      flex-direction: column;
+      font-size: 9px;
+      font-weight: 600;
+      color: #1a4f9c;
+      line-height: 1.4;
+      letter-spacing: 0.3px;
+    }
+
+    .ue-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ue-circle {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2d8c3e, #f0c030);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .ue-text {
+      display: flex;
+      flex-direction: column;
+      font-size: 10px;
+      font-weight: 800;
+      color: #1a4f9c;
+      line-height: 1.3;
+      text-transform: uppercase;
+    }
+
+    .ue-text small {
+      font-size: 7.5px;
+      font-weight: 500;
+      color: #555;
+      text-transform: none;
+    }
+
+    /* Name */
+    .d-name {
+      font-size: clamp(20px, 5.5vw, 26px);
+      font-weight: 800;
+      color: #1a1a2e;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    /* Fields */
+    .d-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,50,0.08);
+      margin-bottom: 20px;
+    }
+
+    .d-row {
+      display: flex;
+      align-items: baseline;
+      padding: 13px 18px;
+      gap: 10px;
+      border-bottom: 1px solid #f0f0f6;
+    }
+
+    .d-row:last-child { border-bottom: none; }
+
+    .d-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #7c5cbf;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      min-width: 90px;
+      flex-shrink: 0;
+    }
+
+    .d-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1a1a2e;
+    }
+
+    /* Validity + code bar */
+    .d-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      border-radius: 16px;
+      padding: 14px 18px;
+      box-shadow: 0 4px 20px rgba(0,0,50,0.08);
+    }
+
+    .d-validity {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .d-validity .lbl {
+      font-size: 10px;
+      font-weight: 700;
+      color: #7c5cbf;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .d-validity .val {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a4f9c;
+    }
+
+    .d-code {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .d-code .lbl {
+      font-size: 9px;
+      color: #999;
+      margin-bottom: 2px;
+    }
+
+    .d-code .cod {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1a1a2e;
       letter-spacing: 1px;
     }
 
-    /* ── Full-screen image view ── */
-    #viewer {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: #000;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-    }
-
-    #viewer.active {
-      display: flex;
-    }
-
-    #viewer img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      border-radius: 12px;
-    }
-
-    #close-btn {
-      position: fixed;
-      top: 14px;
-      right: 18px;
-      background: rgba(255,255,255,0.15);
-      border: none;
-      color: #fff;
-      font-size: 22px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(8px);
-      z-index: 20;
+    /* Bottom accent strip */
+    .d-strip {
+      height: 8px;
+      background: linear-gradient(90deg, #7c2d9e, #1a4f9c);
+      border-radius: 0 0 0 0;
+      margin-top: auto;
     }
   </style>
 </head>
 <body>
 
-  <!-- Home -->
+  <!-- ── HOME ── -->
   <div id="home">
-    <div class="card-btn" onclick="showCard('isabela')">
-      <img class="avatar" src="images/isabela.png" alt="Isabela" />
-      <span class="name">Isabela Pereira<br>Sangaletti</span>
-      <span class="tag">Nutrição</span>
+    <div class="thumb" onclick="showDetail('isabela')">
+      <img class="thumb-photo" src="images/isabela.png" alt="Isabela" />
+      <div class="thumb-info">
+        <div class="dne-logo"><span>dne</span></div>
+        <div class="t-name">Isabela Pereira Sangaletti</div>
+        <div class="t-course">Nutrição · PUCRS</div>
+      </div>
     </div>
 
-    <div class="card-btn" onclick="showCard('sofia')">
-      <img class="avatar" src="images/sofia.png" alt="Sofia" />
-      <span class="name">Sofia Batista<br>Sartori</span>
-      <span class="tag">Eng de Software</span>
+    <div class="thumb" onclick="showDetail('sofia')">
+      <img class="thumb-photo" src="images/sofia.png" alt="Sofia" />
+      <div class="thumb-info">
+        <div class="dne-logo"><span>dne</span></div>
+        <div class="t-name">Sofia Batista Sartori</div>
+        <div class="t-course">Eng de Software · PUCRS</div>
+      </div>
     </div>
   </div>
 
-  <!-- Full-screen viewer -->
-  <div id="viewer">
-    <button id="close-btn" onclick="hideCard()">✕</button>
-    <img id="viewer-img" src="" alt="" />
+  <!-- ── DETAIL ── -->
+  <div id="detail">
+    <div class="d-photo-wrap">
+      <img id="d-photo" class="d-photo" src="" alt="" />
+      <button class="d-back" onclick="showHome()">‹</button>
+    </div>
+
+    <div class="d-body">
+      <!-- Logos -->
+      <div class="d-logos">
+        <div class="dne-wordmark">
+          <div class="dne-d">dne</div>
+          <div class="dne-text">
+            <span>Documento</span>
+            <span>Nacional</span>
+            <span>do Estudante</span>
+          </div>
+        </div>
+        <div class="ue-badge">
+          <div class="ue-circle">UE</div>
+          <div class="ue-text">
+            União dos<br>Estudantes
+            <small>Colegiais e Universitários</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Name -->
+      <div id="d-name" class="d-name"></div>
+
+      <!-- Fields -->
+      <div class="d-fields">
+        <div class="d-row"><span class="d-label">CPF</span><span class="d-value" id="d-cpf"></span></div>
+        <div class="d-row"><span class="d-label">Data nas.</span><span class="d-value" id="d-birth"></span></div>
+        <div class="d-row"><span class="d-label">Instituição</span><span class="d-value" id="d-inst"></span></div>
+        <div class="d-row"><span class="d-label">Nível</span><span class="d-value" id="d-level"></span></div>
+        <div class="d-row"><span class="d-label">Curso</span><span class="d-value" id="d-course"></span></div>
+      </div>
+
+      <!-- Footer -->
+      <div class="d-footer">
+        <div class="d-validity">
+          <span class="lbl">Validade</span>
+          <span class="val" id="d-validity"></span>
+        </div>
+        <div class="d-code">
+          <span class="lbl">Cód. de uso DNE</span>
+          <span class="cod" id="d-code"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-strip"></div>
   </div>
 
   <script>
-    const images = {
-      isabela: 'images/isabela.png',
-      sofia:   'images/sofia.png'
+    const data = {
+      isabela: {
+        photo:    'images/isabela.png',
+        name:     'Isabela Pereira Sangaletti',
+        cpf:      '875.810.350-34',
+        birth:    '19/10/1999',
+        inst:     'PUCRS',
+        level:    'Superior',
+        course:   'Nutrição',
+        validity: 'Março de 2027',
+        code:     '2026.3268.2222'
+      },
+      sofia: {
+        photo:    'images/sofia.png',
+        name:     'Sofia Batista Sartori',
+        cpf:      '854.518.430-15',
+        birth:    '06/01/2003',
+        inst:     'PUCRS',
+        level:    'Superior',
+        course:   'Eng de Software',
+        validity: 'Março de 2027',
+        code:     '2026.3268.2222'
+      }
     };
 
-    function showCard(name) {
-      document.getElementById('viewer-img').src = images[name];
-      document.getElementById('viewer').classList.add('active');
+    function showDetail(name) {
+      const p = data[name];
+      document.getElementById('d-photo').src      = p.photo;
+      document.getElementById('d-name').textContent     = p.name;
+      document.getElementById('d-cpf').textContent      = p.cpf;
+      document.getElementById('d-birth').textContent    = p.birth;
+      document.getElementById('d-inst').textContent     = p.inst;
+      document.getElementById('d-level').textContent    = p.level;
+      document.getElementById('d-course').textContent   = p.course;
+      document.getElementById('d-validity').textContent = p.validity;
+      document.getElementById('d-code').textContent     = p.code;
+
+      document.getElementById('home').style.display   = 'none';
+      document.getElementById('detail').classList.add('active');
+      window.scrollTo(0, 0);
     }
 
-    function hideCard() {
-      document.getElementById('viewer').classList.remove('active');
+    function showHome() {
+      document.getElementById('detail').classList.remove('active');
+      document.getElementById('home').style.display = 'flex';
     }
-
-    // Close on tap outside image
-    document.getElementById('viewer').addEventListener('click', function(e) {
-      if (e.target === this) hideCard();
-    });
   </script>
 </body>
 </html>
